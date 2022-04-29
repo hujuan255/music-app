@@ -12,6 +12,9 @@
   font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #535353;
 }
+a {
+  text-decoration: none;
+}
 .icon {
   width: 0.3rem;
   height: 0.3rem;

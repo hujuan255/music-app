@@ -9,6 +9,16 @@ export const getBannerApi = (type = 0) => {
     method: 'get'
   })
 }
-export const getGoodPlaylistsApi = (limit = 10, offset = 0) => {
-
+//获取推荐歌单 可选参数 : limit: 取出数量 , 默认为 10 
+export const getGoodPlaylistsApi = (limit = 10) => {
+  return requests({
+    url: `http://localhost:3000/personalized?limit=${limit}`,
+    method: 'get'
+  })
+}
+export const getPlaylistDetailApi = (id) => {
+  return requests({
+    url: `http://localhost:3000/playlist/detail?id=${id}`,
+    method: 'get'
+  })
 }
