@@ -12,6 +12,11 @@
   font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #535353;
 }
+html,
+body,
+#app {
+  height: 100%;
+}
 a {
   text-decoration: none;
 }

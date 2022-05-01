@@ -32,7 +32,6 @@ import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
 import { computed, onMounted, ref } from "vue";
 import { getGoodPlaylistsApi } from "@/api/index.js";
-//import { formatPlayCount } from "@/utils/formatPlayCount.js";
 import utils from "@/utils/formatData.js";
 
 const settings = ref({

@@ -1,23 +1,28 @@
 <template>
-  <div class="playlistDetail"></div>
+  <div class="playlistDetail">
+    <PlaylistTop :playlist="playlist"></PlaylistTop>
+    <PlaylistDetailList :playlist="playlist"></PlaylistDetailList>
+  </div>
 </template>
 <script setup>
+import PlaylistTop from "../components/PlaylistTop.vue";
+import PlaylistDetailList from "../components/PlaylistDetailList.vue";
 import { getPlaylistDetailApi } from "@/api/index.js";
-import { onMounted } from "@vue/runtime-core";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { ref } from "vue";
+
 const route = useRoute();
 
-let playlist = ref([]);
+let playlist = ref({});
 onMounted(() => {
   getPlaylist();
+  console.log(playlist.value);
 });
 const getPlaylist = async () => {
-  //let idValue = route.query;
-  //console.log(id.id);
   let res = await getPlaylistDetailApi(route.query.id);
   if (res.status == 200) {
-    playlist = res.data.playlist;
+    playlist.value = res.data.playlist;
   }
 };
 </script>
