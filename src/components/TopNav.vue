@@ -29,6 +29,7 @@
   align-items: center;
   padding: 0 0.4rem;
   color: #838284;
+  margin: 0 auto;
   .icon {
     width: 0.3rem;
     height: 0.3rem;

@@ -41,6 +41,7 @@
   padding: 0.2rem;
   display: flex;
   justify-content: space-between;
+  margin: 0 auto;
   .iconItem {
     display: flex;
     flex-direction: column;

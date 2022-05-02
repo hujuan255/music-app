@@ -52,6 +52,7 @@ const playlist = ref([]);
 const getFindGoodPlaylist = async () => {
   let res = await getGoodPlaylistsApi(10);
   playlist.value = res.data.result;
+
   console.log(playlist.value);
 };
 </script>
@@ -62,6 +63,7 @@ const getFindGoodPlaylist = async () => {
   display: flex;
   flex-direction: column;
   padding: 0 0.2rem;
+  margin: 0 auto;
   .topText {
     display: flex;
     justify-content: space-between;

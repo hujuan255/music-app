@@ -69,13 +69,17 @@
 <script setup>
 import utils from "@/utils/formatData.js";
 import { onMounted } from "vue";
+import store from "@/store/index.js";
 const props = defineProps({
   playlist: {
     tracks: [],
   },
 });
 onMounted(() => {
-  console.log(props.playlist);
+  if (props.playlist.tracks) {
+    store.commit("setPlaylist", props.playlist.tracks);
+    console.log(props.playlist.tracks + "playlist");
+  }
 });
 </script>
 <style lang='less' scoped>
@@ -85,12 +89,12 @@ onMounted(() => {
   height: 100vh;
 } */
 .playlistTop {
-  height: 1.2rem;
   width: 7.5rem;
   margin: 1.4rem auto 0 auto;
   background-color: rgba(227, 227, 227, 0.7);
   border-top-left-radius: 0.4rem;
   border-top-right-radius: 0.4rem;
+
   .bg {
     display: flex;
     justify-content: space-between;
@@ -187,36 +191,36 @@ onMounted(() => {
       display: flex;
       align-items: center;
       color: #999;
-      .index {
-        margin-right: 0.4rem;
-      }
-      .name {
-        font-size: 0.3rem;
-        font-weight: bold;
-        overflow: hidden;
-        // 超出用省略号
-        text-overflow: ellipsis;
-        //垂直布局
-        display: -webkit-box;
-        //每列2行
-        -webkit-line-clamp: 1;
-        //溢出隐藏
-        -webkit-box-orient: vertical;
-      }
-      .details {
-        display: flex;
-        align-items: center;
-
-        .tags {
-          border: 0.1px solid #ff1818;
-          border-radius: 3px;
-          margin: 0.1rem 0.1rem 0.1rem 0;
-          font-size: 0.2rem;
-          color: #ff1818;
-        }
-        .desc {
-          color: #999;
+      .context {
+        padding-left: 0.4rem;
+        .name {
           font-size: 0.3rem;
+          font-weight: bold;
+        }
+        .details {
+          display: flex;
+          align-items: center;
+
+          .tags {
+            border: 0.1px solid #ff1818;
+            border-radius: 3px;
+            margin: 0.1rem 0.1rem 0.1rem 0;
+            font-size: 0.2rem;
+            color: #ff1818;
+          }
+          .desc {
+            color: #999;
+            font-size: 0.26rem;
+            overflow: hidden;
+            // 超出用省略号
+            text-overflow: ellipsis;
+            //垂直布局
+            display: -webkit-box;
+            //每列1行
+            -webkit-line-clamp: 1;
+            //溢出隐藏
+            -webkit-box-orient: vertical;
+          }
         }
       }
     }
