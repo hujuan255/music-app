@@ -1,3 +1,4 @@
+// 跟单列表头部组件
 <template>
   <div class="playlistTop">
     <img class="bg" :src="playlist.coverImgUrl" />

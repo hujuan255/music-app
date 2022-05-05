@@ -1,18 +1,17 @@
+// 歌单详情列表
 <template>
   <div class="playlistTop">
-    <div class="bg">
-      <div class="left">
-        <svg class="icon icon-wodeVIP" aria-hidden="true">
-          <use xlink:href="#icon-wodeVIP"></use>
-        </svg>
-        <div class="title">含6首VIP专项歌曲</div>
-      </div>
-      <div class="right">
-        <div class="vipAdv">首开VIP仅5元</div>
-        <svg class="icon icon-arrow" aria-hidden="true">
-          <use xlink:href="#icon-arrow"></use>
-        </svg>
-      </div>
+    <div class="left">
+      <svg class="icon icon-wodeVIP" aria-hidden="true">
+        <use xlink:href="#icon-wodeVIP"></use>
+      </svg>
+      <div class="title">含6首VIP专项歌曲</div>
+    </div>
+    <div class="right">
+      <div class="vipAdv">首开VIP仅5元</div>
+      <svg class="icon icon-arrow" aria-hidden="true">
+        <use xlink:href="#icon-arrow"></use>
+      </svg>
     </div>
   </div>
   <div class="playlist">
@@ -41,7 +40,7 @@
       <div class="left">
         <div class="index">{{ index + 1 }}</div>
         <div class="context">
-          <div class="name">{{ track.name }}</div>
+          <div class="name" @click="setPlayIndex(index)">{{ track.name }}</div>
           <div class="details">
             <div
               class="tags"
@@ -65,22 +64,21 @@
       </div>
     </div>
   </div>
+  <PlayController></PlayController>
 </template>
 <script setup>
 import utils from "@/utils/formatData.js";
-import { onMounted } from "vue";
+import PlayController from "./PlayController.vue";
 import store from "@/store/index.js";
 const props = defineProps({
   playlist: {
     tracks: [],
   },
+  playCurrentIndex: 0,
 });
-onMounted(() => {
-  if (props.playlist.tracks) {
-    store.commit("setPlaylist", props.playlist.tracks);
-    console.log(props.playlist.tracks + "playlist");
-  }
-});
+const setPlayIndex = (index) => {
+  return store.commit("setPlayIndex", index);
+};
 </script>
 <style lang='less' scoped>
 /* .playlistDetail {
@@ -194,8 +192,18 @@ onMounted(() => {
       .context {
         padding-left: 0.4rem;
         .name {
+          width: 2.8rem;
           font-size: 0.3rem;
           font-weight: bold;
+          overflow: hidden;
+          // 超出用省略号
+          text-overflow: ellipsis;
+          //垂直布局
+          display: -webkit-box;
+          //每列1行
+          -webkit-line-clamp: 1;
+          //溢出隐藏
+          -webkit-box-orient: vertical;
         }
         .details {
           display: flex;
@@ -209,6 +217,7 @@ onMounted(() => {
             color: #ff1818;
           }
           .desc {
+            width: 2.5rem;
             color: #999;
             font-size: 0.26rem;
             overflow: hidden;

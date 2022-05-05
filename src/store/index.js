@@ -1,8 +1,9 @@
 import { createStore } from 'vuex'
+import { reactive } from 'vue'
 
 export default createStore({
   state: {
-    playlist: [],
+    playlist: [{ al: {} }],
     playCurrentIndex: 0,
   },
   getters: {
@@ -10,6 +11,9 @@ export default createStore({
   mutations: {
     setPlaylist(state, playlist) {
       state.playlist = playlist
+    },
+    setPlayIndex(state, playCurrentIndex) {
+      state.playCurrentIndex = playCurrentIndex
     }
   },
   actions: {

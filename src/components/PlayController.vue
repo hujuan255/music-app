@@ -1,36 +1,124 @@
+// 底部控制音乐播放的组件
 <template>
-  <div class="playController">
-    <div class="left">
-      <img src="" />
+  <div
+    class="playController"
+    v-if="$store.state.playlist[$store.state.playCurrentIndex].al"
+  >
+    <div class="left" @click="show = !show">
+      <img
+        :src="$store.state.playlist[$store.state.playCurrentIndex].al.picUrl"
+      />
       <div class="content">
-        <div class="title"></div>
-        <div class="desc">横滑可以切换上下首</div>
+        <div class="title">
+          {{ $store.state.playlist[$store.state.playCurrentIndex].al.name }}
+        </div>
+        <div class="desc">横滑可以切换上下首哦</div>
       </div>
     </div>
     <div class="right">
-      <svg class="icon icon-arrow" aria-hidden="true">
-        <use xlink:href="#icon-bofang1"></use>
+      <svg
+        v-if="isShowAudio"
+        class="icon icon-bofang2"
+        aria-hidden="true"
+        @click="play"
+      >
+        <use xlink:href="#icon-bofang2"></use>
       </svg>
-      <svg class="icon icon-arrow" aria-hidden="true">
+      <svg v-else class="icon icon-zanting" aria-hidden="true" @click="play">
+        <use xlink:href="#icon-zanting"></use>
+      </svg>
+      <svg class="icon icon-24gf-playlist" aria-hidden="true">
         <use xlink:href="#icon-24gf-playlist"></use>
       </svg>
     </div>
+    <!-- @back 触发点击事件   playMusicDetail设置props-->
+    <PlayMusicDetail
+      @back="show = !show"
+      v-show="show"
+      :playMusicDetail="$store.state.playlist[$store.state.playCurrentIndex]"
+    ></PlayMusicDetail>
+    <audio
+      ref="audio"
+      :src="`https://music.163.com/song/media/outer/url?id=${
+        $store.state.playlist[$store.state.playCurrentIndex].id
+      }.mp3`"
+    ></audio>
   </div>
 </template>
 <script setup>
+import PlayMusicDetail from "@/components/PlayMusicDetail.vue";
 import store from "@/store/index.js";
-import { mapState, mapMutations } from "vuex";
-import { computed } from "vue";
-computed(mapState(["playlist", "playCurrentIndex"]));
+import PlaylistDetailListVue from "@/components/PlaylistDetailList.vue";
+import { ref } from "vue";
+const audio = ref(null);
+const isShowAudio = ref(true);
+const show = ref(false);
+const play = () => {
+  if (audio.value.paused) {
+    audio.value.play();
+    isShowAudio.value = false;
+  } else {
+    audio.value.pause();
+    isShowAudio.value = true;
+  }
+};
 </script>
 <style lang='less' scoped>
 .playController {
+  background-color: #fff;
+  border-top: 1px solid #ddd;
   width: 7.5rem;
-  height: 2rem;
+  height: 1.2rem;
   position: fixed;
   bottom: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
+  .left {
+    display: flex;
+    align-items: center;
+    margin-left: 0.2rem;
+    img {
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 1rem;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      margin-left: 0.2rem;
+      .title {
+        width: 3.8rem;
+        font-size: 0.28rem;
+        font-weight: 500;
+        overflow: hidden;
+        // 超出用省略号
+        text-overflow: ellipsis;
+        //垂直布局
+        display: -webkit-box;
+        //每列1行
+        -webkit-line-clamp: 1;
+        //溢出隐藏
+        -webkit-box-orient: vertical;
+      }
+      .desc {
+        font-size: 0.2rem;
+        color: #999;
+      }
+    }
+  }
+  .right {
+    align-content: center;
+    margin-right: 0.2rem;
+    .icon {
+      width: 0.5rem;
+      height: 0.5rem;
+    }
+    .icon-bofang2,
+    .icon-zanting {
+      margin: 0 0.4rem;
+    }
+  }
 }
 </style>
