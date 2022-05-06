@@ -1,17 +1,19 @@
 // 歌单详情列表
 <template>
   <div class="playlistTop">
-    <div class="left">
-      <svg class="icon icon-wodeVIP" aria-hidden="true">
-        <use xlink:href="#icon-wodeVIP"></use>
-      </svg>
-      <div class="title">含6首VIP专项歌曲</div>
-    </div>
-    <div class="right">
-      <div class="vipAdv">首开VIP仅5元</div>
-      <svg class="icon icon-arrow" aria-hidden="true">
-        <use xlink:href="#icon-arrow"></use>
-      </svg>
+    <div class="bg">
+      <div class="left">
+        <svg class="icon icon-wodeVIP" aria-hidden="true">
+          <use xlink:href="#icon-wodeVIP"></use>
+        </svg>
+        <div class="title">含6首VIP专项歌曲</div>
+      </div>
+      <div class="right">
+        <div class="vipAdv">首开VIP仅5元</div>
+        <svg class="icon icon-arrow" aria-hidden="true">
+          <use xlink:href="#icon-arrow"></use>
+        </svg>
+      </div>
     </div>
   </div>
   <div class="playlist">
@@ -81,18 +83,12 @@ const setPlayIndex = (index) => {
 };
 </script>
 <style lang='less' scoped>
-/* .playlistDetail {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-} */
 .playlistTop {
   width: 7.5rem;
   margin: 1.4rem auto 0 auto;
   background-color: rgba(227, 227, 227, 0.7);
   border-top-left-radius: 0.4rem;
   border-top-right-radius: 0.4rem;
-
   .bg {
     display: flex;
     justify-content: space-between;

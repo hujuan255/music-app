@@ -1,10 +1,11 @@
 import { createStore } from 'vuex'
-import { reactive } from 'vue'
+import { getSongLyricApi } from '@/api/index.js'
 
 export default createStore({
   state: {
-    playlist: [{ al: {} }],
-    playCurrentIndex: 0,
+    playlist: [{ al: {} }],//歌单列表
+    playCurrentIndex: 0,//当前播放歌曲索引
+    lyric: {},//歌曲歌词
   },
   getters: {
   },
@@ -14,9 +15,19 @@ export default createStore({
     },
     setPlayIndex(state, playCurrentIndex) {
       state.playCurrentIndex = playCurrentIndex
+    },
+    setLyric(state, lyric) {
+      state.lyric = lyric
     }
   },
   actions: {
+    async reqLyric(content, payload) {
+      console.log(payload);
+      let res = await getSongLyricApi(payload)
+      console.log(res)
+      //content.commit('setLyric', res.data.lrc.lyric)
+      //console.log(res.data.lrc.lyric)
+    }
   },
   modules: {
   }

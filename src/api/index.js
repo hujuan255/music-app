@@ -22,3 +22,9 @@ export const getPlaylistDetailApi = (id) => {
     method: 'get'
   })
 }
+export const getSongLyricApi = (id) => {
+  return requests({
+    url: `http://localhost:3000/lyric?id=${id}`,
+    method: 'get'
+  })
+}

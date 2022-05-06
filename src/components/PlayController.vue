@@ -2,15 +2,15 @@
 <template>
   <div
     class="playController"
-    v-if="$store.state.playlist[$store.state.playCurrentIndex].al"
+    v-if="store.state.playlist[store.state.playCurrentIndex].al"
   >
     <div class="left" @click="show = !show">
       <img
-        :src="$store.state.playlist[$store.state.playCurrentIndex].al.picUrl"
+        :src="store.state.playlist[store.state.playCurrentIndex].al.picUrl"
       />
       <div class="content">
         <div class="title">
-          {{ $store.state.playlist[$store.state.playCurrentIndex].al.name }}
+          {{ store.state.playlist[store.state.playCurrentIndex].name }}
         </div>
         <div class="desc">横滑可以切换上下首哦</div>
       </div>
@@ -31,28 +31,31 @@
         <use xlink:href="#icon-24gf-playlist"></use>
       </svg>
     </div>
-    <!-- @back 触发点击事件   playMusicDetail设置props-->
+    <!-- @back 触发返回事件   设置props将playMusicDetail的数据，isShowAudio的值，及play的方法传给子组件-->
     <PlayMusicDetail
+      :isShowAudio="isShowAudio"
+      :play="play"
       @back="show = !show"
       v-show="show"
-      :playMusicDetail="$store.state.playlist[$store.state.playCurrentIndex]"
+      :playMusicDetail="store.state.playlist[store.state.playCurrentIndex]"
     ></PlayMusicDetail>
     <audio
       ref="audio"
       :src="`https://music.163.com/song/media/outer/url?id=${
-        $store.state.playlist[$store.state.playCurrentIndex].id
+        store.state.playlist[store.state.playCurrentIndex].id
       }.mp3`"
     ></audio>
   </div>
 </template>
 <script setup>
 import PlayMusicDetail from "@/components/PlayMusicDetail.vue";
-import store from "@/store/index.js";
 import PlaylistDetailListVue from "@/components/PlaylistDetailList.vue";
-import { ref } from "vue";
+import { onMounted, computed, ref } from "vue";
+import { useStore } from "vuex";
 const audio = ref(null);
 const isShowAudio = ref(true);
 const show = ref(false);
+
 const play = () => {
   if (audio.value.paused) {
     audio.value.play();
@@ -62,12 +65,23 @@ const play = () => {
     isShowAudio.value = true;
   }
 };
+const store = useStore();
+
+onMounted(() => {
+  showLyric();
+});
+const showLyric = () => {
+  store.dispatch(
+    "reqLyric",
+    store.state.playlist[store.state.playCurrentIndex].id
+  );
+};
 </script>
 <style lang='less' scoped>
 .playController {
   background-color: #fff;
   border-top: 1px solid #ddd;
-  width: 7.5rem;
+  width: 100%;
   height: 1.2rem;
   position: fixed;
   bottom: 0;
