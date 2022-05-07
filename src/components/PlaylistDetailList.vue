@@ -72,11 +72,12 @@
 import utils from "@/utils/formatData.js";
 import PlayController from "./PlayController.vue";
 import store from "@/store/index.js";
+import { ref } from "vue";
 const props = defineProps({
   playlist: {
     tracks: [],
   },
-  playCurrentIndex: 0,
+  playCurrentIndex: {},
 });
 const setPlayIndex = (index) => {
   return store.commit("setPlayIndex", index);

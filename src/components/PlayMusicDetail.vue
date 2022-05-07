@@ -32,7 +32,19 @@
       <img class="disc-plus" src="@/assets/img/disc-plus.png" />
       <img class="pic" :src="playMusicDetail.al.picUrl" />
     </div>
-    <div v-else class="lyrics">{{ $store.state.lyric }}</div>
+    <div v-else class="lyrics">
+      <p
+        :class="{
+          active:
+            store.state.currentTime * 1000 >= item.pre &&
+            store.state.currentTime * 1000 <= item.time,
+        }"
+        v-for="(item, i) in store.getters.lyricList"
+        :key="i"
+      >
+        {{ item.lyric }}
+      </p>
+    </div>
     <div v-show="!isLyrics" class="iconList">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-aixin1"></use>
@@ -159,6 +171,22 @@ const store = useStore();
       width: 3.15 rem;
       height: 3.15rem;
       border-radius: 50%;
+    }
+  }
+  .lyrics {
+    position: absolute;
+    width: 7.5rem;
+    height: 8rem;
+    left: 0;
+    top: 2.5rem;
+    overflow: scroll;
+    text-align: center;
+    padding: 0.2rem 0;
+    p {
+      color: #fff;
+    }
+    .active {
+      color: #ff0000;
     }
   }
   .iconList {

@@ -1,4 +1,4 @@
-// 图标列表
+// 图标列表组件
 <template>
   <div class="iconList">
     <div class="iconItem">

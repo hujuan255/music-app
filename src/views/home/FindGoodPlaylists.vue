@@ -1,10 +1,11 @@
-// 发现好歌单lists
+// 发现好歌单组件
 <template>
   <div class="findGoodPlaylist">
     <div class="topText">
       <div class="left">发现好歌单</div>
       <div class="right">查看更多</div>
     </div>
+    <!-- 引入carousel轮播图 -->
     <Carousel
       class="imgsContent"
       :settings="settings"
@@ -30,7 +31,7 @@
 <script setup>
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { getGoodPlaylistsApi } from "@/api/index.js";
 import utils from "@/utils/formatData.js";
 
@@ -45,15 +46,18 @@ const breakpoints = ref({
     snapAlign: "center",
   },
 });
+//在onMounted中调用发现好歌单方法
 onMounted(() => {
   getFindGoodPlaylist();
 });
 const playlist = ref([]);
+// 获取发现好歌单列表
 const getFindGoodPlaylist = async () => {
   let res = await getGoodPlaylistsApi(10);
-  playlist.value = res.data.result;
-
-  console.log(playlist.value);
+  if (res.status == 200) {
+    playlist.value = res.data.result;
+    //console.log(playlist.value);
+  }
 };
 </script>
 <style lang='less'>

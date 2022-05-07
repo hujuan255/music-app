@@ -9,7 +9,7 @@
         :src="store.state.playlist[store.state.playCurrentIndex].al.picUrl"
       />
       <div class="content">
-        <div class="title">
+        <div class="title" @click="showLyric">
           {{ store.state.playlist[store.state.playCurrentIndex].name }}
         </div>
         <div class="desc">横滑可以切换上下首哦</div>
@@ -50,31 +50,37 @@
 <script setup>
 import PlayMusicDetail from "@/components/PlayMusicDetail.vue";
 import PlaylistDetailListVue from "@/components/PlaylistDetailList.vue";
-import { onMounted, computed, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
-const audio = ref(null);
-const isShowAudio = ref(true);
+const audio = ref(null); //播放器
+const isShowAudio = ref(true); //是否显示播放按钮
 const show = ref(false);
-
+//播放方法，如果播放器没有播放，点击播放按钮则播放，如果播放器正在播放，点击暂停则暂停
 const play = () => {
   if (audio.value.paused) {
     audio.value.play();
     isShowAudio.value = false;
+    updateTime();
   } else {
     audio.value.pause();
     isShowAudio.value = true;
+    clearInterval(store.state.intervalId);
   }
 };
 const store = useStore();
-
-onMounted(() => {
-  showLyric();
-});
+//将当前播放歌曲的id传给store中异步请求的方法
 const showLyric = () => {
-  store.dispatch(
-    "reqLyric",
-    store.state.playlist[store.state.playCurrentIndex].id
-  );
+  store.dispatch("reqLyric", {
+    id: store.state.playlist[store.state.playCurrentIndex].id,
+  });
+};
+//更新播放时间
+const updateTime = () => {
+  //设置间隔1秒钟更新一次
+  store.state.intervalId = setInterval(() => {
+    //console.log(audio.value.currentTime);
+    store.commit("setCurrentTime", audio.value.currentTime);
+  }, 1000);
 };
 </script>
 <style lang='less' scoped>
