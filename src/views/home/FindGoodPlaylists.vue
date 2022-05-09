@@ -118,7 +118,7 @@ const getFindGoodPlaylist = async () => {
       }
     }
     .title {
-      height: 0.6rem;
+      height: 0.7rem;
       overflow: hidden;
       width: 2rem;
       margin: 0.2rem 0;

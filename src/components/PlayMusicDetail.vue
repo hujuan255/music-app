@@ -23,7 +23,7 @@
         </svg>
       </div>
     </div>
-    <div v-if="!isLyrics" class="playContent">
+    <div v-if="isShowPlayImg" class="playContent" @click="showMuscirWord">
       <img
         class="needle"
         :class="{ active: !isShowAudio }"
@@ -32,18 +32,20 @@
       <img class="disc-plus" src="@/assets/img/disc-plus.png" />
       <img class="pic" :src="playMusicDetail.al.picUrl" />
     </div>
-    <div v-else class="lyrics">
-      <p
-        :class="{
-          active:
-            store.state.currentTime * 1000 >= item.pre &&
-            store.state.currentTime * 1000 <= item.time,
-        }"
-        v-for="(item, i) in store.getters.lyricList"
-        :key="i"
-      >
-        {{ item.lyric }}
-      </p>
+    <div v-else class="lyrics" ref="lyrics" @click="showMuscirWord">
+      <div class="scroll-lrc">
+        <p
+          :class="{
+            active:
+              store.state.currentTime * 1000 >= item.pre &&
+              store.state.currentTime * 1000 < item.time,
+          }"
+          v-for="(item, i) in store.getters.lyricList"
+          :key="i"
+        >
+          {{ item.lyric }}
+        </p>
+      </div>
     </div>
     <div v-show="!isLyrics" class="iconList">
       <svg class="icon" aria-hidden="true">
@@ -61,7 +63,7 @@
     <div class="progress"></div>
     <div class="footerIcon">
       <div class="iconfont icon-xunhuan"></div>
-      <div class="iconfont icon-24gl-previous"></div>
+      <div class="iconfont icon-24gl-previous" @click="goPlay(-1)"></div>
       <svg
         v-if="isShowAudio"
         class="icon icon-bofang"
@@ -73,13 +75,13 @@
       <svg v-else class="icon icon-zanting" aria-hidden="true" @click="play">
         <use xlink:href="#icon-zanting"></use>
       </svg>
-      <div class="iconfont icon-24gl-next"></div>
+      <div class="iconfont icon-24gl-next" @click="goPlay(1)"></div>
       <div class="iconfont icon-24gf-playlist"></div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useStore } from "vuex";
 // props接收父组件传递的参数：对象playMusicDetail，isShowAudio是否显示音乐播放按钮，play方法是否播放音乐
 const props = defineProps({
@@ -88,10 +90,59 @@ const props = defineProps({
   play: function () {
     $emit("play");
   },
+  showLyric: function () {
+    $emit("showLyric");
+    alert("123");
+  },
 });
 //是否显示歌词
-const isLyrics = ref(true);
+const isLyrics = ref(false);
+//是否显示播放界面
+const isShowPlayImg = ref(true);
 const store = useStore();
+const lyrics = ref("");
+if (isLyrics) {
+  //监听如果当前歌曲播放的时间发生变化，则更新歌词，即滚动和声音匹配
+  watch(
+    props.showLyric(),
+    () => store.state.currentTime, //监听state中的currentTime属性
+    () => {
+      let p = document.querySelector("p.active"); //获取当前歌词
+      let offsetTop = p.offsetTop; //获取当前歌词的offsetTop值
+      lyrics.value.scrollTop = offsetTop; //设置歌词的scrollTop值为当前歌词的offsetTop值
+    }
+  );
+}
+//歌词与播放界面切换的方法
+const showMuscirWord = () => {
+  if (isShowPlayImg.value) {
+    isLyrics.value = true;
+    isShowPlayImg.value = false;
+  } else {
+    isLyrics.value = false;
+    isShowPlayImg.value = true;
+  }
+};
+
+//实现播放上一首、下一首的方法(参数为正负1)
+const goPlay = (num) => {
+  const playCurrentIndex = store.state.playCurrentIndex;
+  const playlist = store.state.playlist;
+  console.log(num + "num");
+  console.log(playCurrentIndex + "playCurrentIndex");
+  //获取当前歌曲的索引+num
+  let index = playCurrentIndex + num;
+  console.log(index + "index");
+  //如果索引小于0，则播放最后一首歌曲
+  if (index < 0) {
+    index = playlist.length - 1;
+    //如果索引大于歌曲总数，则播放第一首歌曲
+  } else if (index == playlist.length) {
+    index = 0;
+  }
+  //更新当前歌曲的索引
+  return store.commit("setPlayIndex", index);
+};
 </script>
 <style lang='less' scoped>
 .playMusic {
@@ -132,7 +183,7 @@ const store = useStore();
   .playContent {
     position: absolute;
     width: 7.5rem;
-    height: 3rem;
+    height: 7.5rem;
     left: 0;
     top: 1.5rem;
     .needle {
@@ -174,19 +225,26 @@ const store = useStore();
     }
   }
   .lyrics {
-    position: absolute;
+    position: relative;
     width: 7.5rem;
-    height: 8rem;
+    height: 7.1rem;
     left: 0;
-    top: 2.5rem;
+    top: 1.5rem;
     overflow: scroll;
     text-align: center;
     padding: 0.2rem 0;
-    p {
-      color: #fff;
-    }
-    .active {
-      color: #ff0000;
+    .scroll-lrc {
+      width: 7.1rem;
+      position: absolute;
+      overflow: hidden;
+      top: 1.5rem;
+      left: calc(50% - 3.55rem);
+      p {
+        color: #fff;
+      }
+      p.active {
+        color: #ff0000;
+      }
     }
   }
   .iconList {

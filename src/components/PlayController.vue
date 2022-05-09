@@ -38,6 +38,7 @@
       @back="show = !show"
       v-show="show"
       :playMusicDetail="store.state.playlist[store.state.playCurrentIndex]"
+      :showLyric="showLyric"
     ></PlayMusicDetail>
     <audio
       ref="audio"
@@ -79,7 +80,9 @@ const updateTime = () => {
   //设置间隔1秒钟更新一次
   store.state.intervalId = setInterval(() => {
     //console.log(audio.value.currentTime);
-    store.commit("setCurrentTime", audio.value.currentTime);
+    if (audio.value.currentTime) {
+      store.commit("setCurrentTime", audio.value.currentTime);
+    }
   }, 1000);
 };
 </script>

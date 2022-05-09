@@ -42,7 +42,9 @@
       <div class="left">
         <div class="index">{{ index + 1 }}</div>
         <div class="context">
-          <div class="name" @click="setPlayIndex(index)">{{ track.name }}</div>
+          <div class="name" @click="setPlayMusicIndex(index)">
+            {{ track.name }}
+          </div>
           <div class="details">
             <div
               class="tags"
@@ -71,15 +73,15 @@
 <script setup>
 import utils from "@/utils/formatData.js";
 import PlayController from "./PlayController.vue";
-import store from "@/store/index.js";
-import { ref } from "vue";
+import { useStore } from "vuex";
 const props = defineProps({
   playlist: {
     tracks: [],
   },
   playCurrentIndex: {},
 });
-const setPlayIndex = (index) => {
+const store = useStore();
+const setPlayMusicIndex = (index) => {
   return store.commit("setPlayIndex", index);
 };
 </script>
