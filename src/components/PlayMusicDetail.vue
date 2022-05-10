@@ -92,7 +92,6 @@ const props = defineProps({
   },
   showLyric: function () {
     $emit("showLyric");
-    alert("123");
   },
 });
 //是否显示歌词
@@ -128,17 +127,17 @@ const showMuscirWord = () => {
 const goPlay = (num) => {
   const playCurrentIndex = store.state.playCurrentIndex;
   const playlist = store.state.playlist;
-  console.log(num + "num");
-  console.log(playCurrentIndex + "playCurrentIndex");
   //获取当前歌曲的索引+num
   let index = playCurrentIndex + num;
-  console.log(index + "index");
   //如果索引小于0，则播放最后一首歌曲
   if (index < 0) {
     index = playlist.length - 1;
     //如果索引大于歌曲总数，则播放第一首歌曲
   } else if (index == playlist.length) {
     index = 0;
+  }
+  if (props.isShowAudio == false) {
+    props.play("play", index);
   }
   //更新当前歌曲的索引
   return store.commit("setPlayIndex", index);

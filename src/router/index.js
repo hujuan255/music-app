@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import PlaylistDetail from '../views/PlaylistDetail.vue'
+import Search from '../views/Search.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/playlistDetail',
     name: 'playlistDetail',
     component: PlaylistDetail
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: Search
   },
 ]
 

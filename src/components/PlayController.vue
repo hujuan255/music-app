@@ -40,22 +40,27 @@
       :playMusicDetail="store.state.playlist[store.state.playCurrentIndex]"
       :showLyric="showLyric"
     ></PlayMusicDetail>
+    <!-- timeupdate 时间更新，持续时间的变化 -->
     <audio
       ref="audio"
       :src="`https://music.163.com/song/media/outer/url?id=${
         store.state.playlist[store.state.playCurrentIndex].id
       }.mp3`"
+      @timeupdate="timeUpdateListener"
+      @durationchange="durationChangeListener"
     ></audio>
   </div>
 </template>
 <script setup>
 import PlayMusicDetail from "@/components/PlayMusicDetail.vue";
 import PlaylistDetailListVue from "@/components/PlaylistDetailList.vue";
-import { onMounted, ref } from "vue";
+import { onUpdated, ref } from "vue";
 import { useStore } from "vuex";
 const audio = ref(null); //播放器
 const isShowAudio = ref(true); //是否显示播放按钮
 const show = ref(false);
+const store = useStore();
+
 //播放方法，如果播放器没有播放，点击播放按钮则播放，如果播放器正在播放，点击暂停则暂停
 const play = () => {
   if (audio.value.paused) {
@@ -68,19 +73,30 @@ const play = () => {
     clearInterval(store.state.intervalId);
   }
 };
-const store = useStore();
 //将当前播放歌曲的id传给store中异步请求的方法
 const showLyric = () => {
-  store.dispatch("reqLyric", {
-    id: store.state.playlist[store.state.playCurrentIndex].id,
-  });
+  if (
+    store.state.playlist[store.state.playCurrentIndex].id != "" &&
+    store.state.playlist[store.state.playCurrentIndex].id != undefined
+  ) {
+    store.dispatch("reqLyric", {
+      id: store.state.playlist[store.state.playCurrentIndex].id,
+    });
+  }
 };
+//更新
+onUpdated(() => {
+  //当播放的曲目发生变化时，更新歌词
+  showLyric();
+});
 //更新播放时间
 const updateTime = () => {
   //设置间隔1秒钟更新一次
   store.state.intervalId = setInterval(() => {
-    //console.log(audio.value.currentTime);
-    if (audio.value.currentTime) {
+    if (
+      audio.value.currentTime != null &&
+      audio.value.currentTime != undefined
+    ) {
       store.commit("setCurrentTime", audio.value.currentTime);
     }
   }, 1000);
