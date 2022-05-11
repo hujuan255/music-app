@@ -8,6 +8,10 @@ export default createStore({
     lyric: '',//歌曲歌词
     currentTime: 0,//当前播放时间
     intervalId: 0,//定时器id
+    // 用户信息
+    userInfo: {
+      isLogin: false,//是否登录，默认没有登录
+    }
   },
   getters: {
     // 设置歌词
@@ -51,9 +55,11 @@ export default createStore({
     setPlaylist(state, playlist) {
       state.playlist = playlist
     },
+    pushPlaylist(state, song) {
+      state.playlist.push(song);
+    },
     setPlayIndex(state, playCurrentIndex) {
       state.playCurrentIndex = playCurrentIndex
-      console.log(playCurrentIndex)
     },
     setLyric(state, lyric) {
       state.lyric = lyric

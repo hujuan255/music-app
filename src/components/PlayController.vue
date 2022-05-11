@@ -94,6 +94,7 @@ const updateTime = () => {
   //设置间隔1秒钟更新一次
   store.state.intervalId = setInterval(() => {
     if (
+      audio.value.currentTime != "" &&
       audio.value.currentTime != null &&
       audio.value.currentTime != undefined
     ) {

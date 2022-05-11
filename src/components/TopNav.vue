@@ -1,3 +1,4 @@
+// 首页头部
 <template>
   <div class="topNav">
     <div class="topLeft">
@@ -6,7 +7,7 @@
       </svg>
     </div>
     <div class="topCenter">
-      <span class="navBtn">我的</span>
+      <span class="navBtn" @click="$router.push('/userInfo')">我的</span>
       <span class="navBtn active">发现</span>
       <span class="navBtn">云村</span>
       <span class="navBtn">视频</span>

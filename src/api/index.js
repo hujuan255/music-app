@@ -16,15 +16,24 @@ export const getGoodPlaylistsApi = (limit = 10) => {
     method: 'get'
   })
 }
+//根据歌单id获取该歌单下的歌曲详情
 export const getPlaylistDetailApi = (id) => {
   return requests({
     url: `http://localhost:3000/playlist/detail?id=${id}`,
     method: 'get'
   })
 }
+//根据歌曲id获取该歌曲下的歌词
 export const getSongLyricApi = (id) => {
   return requests({
     url: `http://localhost:3000/lyric?id=${id}`,
+    method: 'get'
+  })
+}
+//根据输入的关键词搜索关键词可以搜索该音乐 / 专辑 / 歌手 / 歌单 / 用户 , 关键词可以多个 , 以空格隔开 , 如 " 周杰伦 搁浅 "( 不需要登录 )
+export const getSongByKeywordsApi = (keywords) => {
+  return requests({
+    url: `http://localhost:3000/search?keywords=${keywords}`,
     method: 'get'
   })
 }

@@ -218,7 +218,7 @@ const goPlay = (num) => {
       position: absolute;
       left: 2.25rem;
       top: 2.95rem;
-      width: 3.15 rem;
+      width: 3.15rem;
       height: 3.15rem;
       border-radius: 50%;
     }
