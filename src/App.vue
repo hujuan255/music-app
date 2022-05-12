@@ -1,7 +1,16 @@
 <template>
   <router-view />
 </template>
-
+<script setup>
+import { onMounted } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
+// 设置进入即登录
+onMounted(() => {
+  let userData = JSON.parse(localStorage.userData);
+  store.commit("setUserInfo", userData);
+});
+</script>
 <style>
 /* 设置全局样式 */
 * {

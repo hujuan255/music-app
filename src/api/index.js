@@ -37,3 +37,17 @@ export const getSongByKeywordsApi = (keywords) => {
     method: 'get'
   })
 }
+//根据电话号码和密码登录
+export const getPhoneNumloginApi = (phoneNum, password) => {
+  return requests({
+    url: `http://localhost:3000/login/cellphone?phone=${phoneNum}&password=${password}`,
+    method: 'get'
+  })
+}
+//根据用户id获取用户信息
+export const getUserInfoByIdApi = (id) => {
+  return requests({
+    url: `http://localhost:3000/user/detail?uid=${id}`,
+    method: 'get'
+  })
+}

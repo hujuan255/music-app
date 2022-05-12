@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { getSongLyricApi } from '@/api/index.js'
+import { getSongLyricApi, getPhoneNumloginApi, getUserInfoByIdApi } from '@/api/index.js'
 
 export default createStore({
   state: {
@@ -11,6 +11,8 @@ export default createStore({
     // 用户信息
     userInfo: {
       isLogin: false,//是否登录，默认没有登录
+      account: {},//用户账号信息
+      profile: {},//用户个人信息
     }
   },
   getters: {
@@ -52,20 +54,29 @@ export default createStore({
     }
   },
   mutations: {
+    //修改歌单
     setPlaylist(state, playlist) {
       state.playlist = playlist
     },
+    //把歌曲的索引添加到歌单中
     pushPlaylist(state, song) {
       state.playlist.push(song);
     },
+    //修改当前播放歌曲索引
     setPlayIndex(state, playCurrentIndex) {
       state.playCurrentIndex = playCurrentIndex
     },
+    //修改歌词
     setLyric(state, lyric) {
       state.lyric = lyric
     },
+    //修改当前播放时间
     setCurrentTime(state, currentTime) {
       state.currentTime = currentTime
+    },
+    //修改用户信息
+    setUserInfo(state, user) {
+      state.userInfo = user
     }
   },
   actions: {
@@ -74,7 +85,22 @@ export default createStore({
       let res = await getSongLyricApi(payload.id)
       content.commit('setLyric', res.data.lrc.lyric)
     },
+    //登录
+    async reqPhoneNumLogin(content, palyload) {
+      let result = await getPhoneNumloginApi(palyload.phoneNum, palyload.password)
+      if (result.data.code == 200) {
+        content.state.userInfo.isLogin = true;
+        content.state.userInfo.account = result.data.account;
+        let profile = await getUserInfoByIdApi(result.data.account.id)
+        content.state.userInfo.profile = profile.data;
+        localStorage.userData = JSON.stringify(content.state.userInfo);
+        content.commit('setUserInfo', content.state.userInfo)
+      }
+      console.log(result);
+      return result;
+    },
   },
+
   modules: {
   }
 })
