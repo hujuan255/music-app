@@ -8,7 +8,7 @@
     </div>
     <div class="topCenter">
       <span class="navBtn" @click="$router.push('/userInfo')">我的</span>
-      <span class="navBtn active">发现</span>
+      <span class="navBtn active" @click="$router.push('/')">发现</span>
       <span class="navBtn">云村</span>
       <span class="navBtn">视频</span>
     </div>

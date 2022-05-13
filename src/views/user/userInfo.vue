@@ -2,10 +2,10 @@
   <div class="userInfo">
     <div class="bg">
       <div class="top">
-        <svg class="icon" aria-hidden="true">
+        <svg class="icon" aria-hidden="true" @click="$router.push('/')">
           <use xlink:href="#icon-31liebiao"></use>
         </svg>
-        <svg class="icon" aria-hidden="true">
+        <svg class="icon" aria-hidden="true" @click="$router.push('/search')">
           <use xlink:href="#icon-sousuo"></use>
         </svg>
       </div>
@@ -94,7 +94,6 @@
   </div>
 </template>
 <script setup>
-
 import BottomNav from "@/components/BottomNav.vue";
 import { useStore } from "vuex";
 const store = useStore();

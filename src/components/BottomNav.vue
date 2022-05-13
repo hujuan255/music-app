@@ -1,7 +1,7 @@
 <template>
   <div class="bottomNva">
     <div class="iconList">
-      <div class="iconContent">
+      <div class="iconContent" @click="$router.push('/')">
         <i class="iconfont icon-faxian"></i>
         <div class="title">发现</div>
       </div>
@@ -9,7 +9,7 @@
         <i class="iconfont icon-xinhao"></i>
         <div class="title">播客</div>
       </div>
-      <div class="iconContent">
+      <div class="iconContent" @click="$router.push('/userInfo')">
         <i class="iconfont icon-yinle1"></i>
         <div class="title">我的</div>
       </div>

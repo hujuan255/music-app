@@ -2,9 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import PlaylistDetail from '../views/PlaylistDetail.vue'
 import Search from '../views/Search.vue'
-import UserInfo from '../views/user/userInfo.vue'
+import UserInfo from '../views/user/UserInfo.vue'
 import Login from '../views/user/Login.vue'
 import PhoneLogin from '../views/user/PhoneLogin.vue'
+import Recommend from '../views/user/Recommend.vue'
+import UserPlaylist from '../views/user/UserPlaylist.vue';
 import { useStore } from 'vuex'
 import store from '@/store'
 const sotre = useStore();
@@ -52,6 +54,18 @@ const routes = [
       }
     },
     component: UserInfo
+  },
+  //每日推荐页面
+  {
+    path: '/recommend',
+    name: 'recommend',
+    component: Recommend
+  },
+  //歌单广场
+  {
+    path: '/userPlaylist',
+    name: 'userPlaylist',
+    component: UserPlaylist
   },
 ]
 

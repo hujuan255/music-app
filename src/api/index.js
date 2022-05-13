@@ -51,3 +51,26 @@ export const getUserInfoByIdApi = (id) => {
     method: 'get'
   })
 }
+
+//获取每日推荐歌曲(需登录)
+export const getRecommendPlaylistApi = () => {
+  return requests({
+    url: 'http://localhost:3000/recommend/resource',
+    method: 'get'
+  })
+}
+
+//获取登录状态
+export const getIsLoginApi = () => {
+  return requests({
+    url: 'http://localhost:3000/login/status',
+    method: 'get'
+  })
+}
+//登录后获取用户歌单
+export const getUserPlaylistApi = (id) => {
+  return requests({
+    url: `http://localhost:3000/user/playlist?uid=${id}`,
+    method: 'get'
+  })
+}

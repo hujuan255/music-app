@@ -195,14 +195,6 @@ const setPlayMusicIndex = (index) => {
           font-size: 0.3rem;
           font-weight: bold;
           overflow: hidden;
-          // 超出用省略号
-          text-overflow: ellipsis;
-          //垂直布局
-          display: -webkit-box;
-          //每列1行
-          -webkit-line-clamp: 1;
-          //溢出隐藏
-          -webkit-box-orient: vertical;
         }
         .details {
           display: flex;

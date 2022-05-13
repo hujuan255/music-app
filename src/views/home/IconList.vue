@@ -1,7 +1,7 @@
 // 图标列表组件
 <template>
   <div class="iconList">
-    <div class="iconItem">
+    <div class="iconItem" @click="">
       <svg class="icon icon-rili" aria-hidden="true">
         <use xlink:href="#icon-rili"></use>
       </svg>
@@ -13,7 +13,7 @@
       </svg>
       <span>私人fm</span>
     </div>
-    <div class="iconItem">
+    <div class="iconItem" @click="$router.push('/userPlaylist')">
       <svg class="icon icon-gedan" aria-hidden="true">
         <use xlink:href="#icon-gedan"></use>
       </svg>
